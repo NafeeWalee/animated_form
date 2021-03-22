@@ -82,7 +82,7 @@ class CustomTextField extends StatelessWidget {
             ),
               prefix: Text(node!.hasFocus || controller!.text != ''?'$prefixText':'',),
               prefixStyle: TextStyle(
-                fontSize: 17,
+                fontSize: 16,
                 fontFamily: 'R',
               ),
               prefixIcon: prefixIcon != null ? Padding(
@@ -97,7 +97,7 @@ class CustomTextField extends StatelessWidget {
             border: OutlineInputBorder(
               borderSide: BorderSide.none
             ),
-
+isDense: true,
             contentPadding: prefixIcon == null ? EdgeInsets.symmetric(horizontal: 10) : EdgeInsets.zero
           ),
         ),
