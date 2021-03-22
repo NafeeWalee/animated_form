@@ -79,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen>
   bool forgetMe = false;
   bool disableTextField = false;
   bool reset = false;
-  bool debugButton = true;
+  bool debugButton = false;
 
   bool loginPasswordObscure = true;
   bool registerPasswordObscure = true;
