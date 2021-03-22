@@ -68,6 +68,10 @@ class CustomTextField extends StatelessWidget {
           enabled: onTap == null ? enabled : false,
           obscureText: obscure!,
           controller: controller,
+          style: TextStyle(
+            fontSize: 16,
+            fontFamily: 'R',
+          ),
           decoration: InputDecoration(
               counterText: "",
             hintText: node!.hasFocus && prefixText != ''?'':hintText,
@@ -76,25 +80,16 @@ class CustomTextField extends StatelessWidget {
               fontFamily: 'R',
               color: AppColor.lightGrey
             ),
+              prefix: Text(node!.hasFocus || controller!.text != ''?'$prefixText':'',),
+              prefixStyle: TextStyle(
+                fontSize: 17,
+                fontFamily: 'R',
+              ),
               prefixIcon: prefixIcon != null ? Padding(
                 padding: const EdgeInsets.only(left:12.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      prefixIcon,
-                      color: AppColor.blue,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left:10.0),
-                      child: Text(
-                        node!.hasFocus || controller!.text != ''?'$prefixText':'',
-                        style: TextStyle(
-                            fontSize: 16,
-                        ),
-                      ),
-                    )
-                  ],
+                child: Icon(
+                  prefixIcon,
+                  color: AppColor.blue,
                 ),
               ) : null,
               suffixIcon: suffixIcon,
@@ -102,6 +97,7 @@ class CustomTextField extends StatelessWidget {
             border: OutlineInputBorder(
               borderSide: BorderSide.none
             ),
+
             contentPadding: prefixIcon == null ? EdgeInsets.symmetric(horizontal: 10) : EdgeInsets.zero
           ),
         ),

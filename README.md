@@ -1,6 +1,6 @@
 # animated_form
 
-Fully animated widgets wrapped together for splash, login, register, forgetpassword & reset password screen.
+A fully animating widgets are wrapped together for splash, login, register, forget password & reset password screens.
 
 ## Getting Started
 

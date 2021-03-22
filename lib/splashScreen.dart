@@ -79,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen>
   bool forgetMe = false;
   bool disableTextField = false;
   bool reset = false;
-  bool debugButton = false;
+  bool debugButton = true;
 
   bool loginPasswordObscure = true;
   bool registerPasswordObscure = true;
@@ -87,31 +87,31 @@ class _SplashScreenState extends State<SplashScreen>
   bool resetPasswordConfirmObscure = true;
 
 
-  ///animation varibles
+  ///animation variables
   double animatedRadius = 10;
-  double animatedSize = 150;
 
-  double animatedPosition = 300;
-  double animatedWidth = 170;
-  double animatedHeight = 150;
+  double animatedPosition = Get.height/2.55;
+  double animatedWidth = Get.width/2;
+  double animatedHeight = Get.width/2.2;
 
-  double imagePosition = 315;
+
+  double imagePosition =  Get.height/2.55 +15;
   double imageWidth = 120;
   double imageHeight = 120;
 
   double animatedOpacity = 0;
 
-  double textFieldTopGap = 200;
-  double textFieldAnimate = -400;
-  double welcomeTextAnimate = -400;
-  double textFieldAnimateLogin = 400;
+  double textFieldTopGap = Get.height/3.5;
+  double textFieldAnimate = - (Get.width + 400);
+  double welcomeTextAnimate = -(Get.width + 400);
+  double textFieldAnimateLogin = Get.width *2;
 
-  double textFieldAnimateForgot = -400;
+  double textFieldAnimateForgot = -(Get.width + 400);
 
-  double textFieldAnimatePin = -400;
+  double textFieldAnimatePin = -(Get.width + 400);
 
-  double textFieldNewPassword = -400;
-  double textFieldNewPasswordConfirm = -400;
+  double textFieldNewPassword = -(Get.width + 400);
+  double textFieldNewPasswordConfirm = -(Get.width + 400);
 
   double buttonOpacity = 0;
 
@@ -182,12 +182,12 @@ class _SplashScreenState extends State<SplashScreen>
         if(mounted){
           setState(() {
             //animate image container
-            animatedPosition = -200;
+            animatedPosition = -Get.height/4;
             animatedRadius = 300;
-            animatedWidth = 470;
-            animatedHeight = 370;
+            animatedWidth = Get.width*1.5;
+            animatedHeight = Get.width*1.05;
             //animate image
-            imagePosition = 30;
+            imagePosition = Get.height/20;
             imageWidth = 140;
             imageHeight = 140;
 
@@ -200,9 +200,8 @@ class _SplashScreenState extends State<SplashScreen>
         if(mounted){
           setState(() {
             //bring up title, form and button
-            welcomeTextAnimate = 0;
-            textFieldAnimateLogin= 0;
-            textFieldAnimate = -400;
+            welcomeTextAnimate = Get.width/400;
+            textFieldAnimateLogin = Get.width/400;
             buttonOpacity = 1;
           });
         }
@@ -241,26 +240,28 @@ class _SplashScreenState extends State<SplashScreen>
         if(completed){
           if(isKeyboardVisible){
             //Keyboard is visible.
-            animatedPosition = -400;
-            imagePosition = -120;
-            textFieldTopGap = 50;
+            animatedPosition = -(Get.height + 400);
+            imagePosition = -(Get.height + 400);
+            textFieldTopGap = Get.height/20;
           } else {
             //Keyboard is not visible.
-            animatedPosition = -200;
-            imagePosition = 30;
-            textFieldTopGap = 200;
+            animatedPosition = -Get.height/4;
+            imagePosition = Get.height/20;
+            textFieldTopGap = Get.height/3.5;
           }
         }
         return Scaffold(
+          backgroundColor: Colors.black,
           body: SingleChildScrollView(
             child: Container(
               height: Get.height,
               child: Stack(
                 children: [
+//////////--------------------------------------------------------------Background, Title & Logo
                   //BG image
                   Positioned.fill(
                     child:
-                    Image.asset('assets/images/background.jpg', fit: BoxFit.cover),
+                    Image.asset('assets/images/background.jpg', fit: BoxFit.fill),
                   ),
                   //BG shade
                   Container(
@@ -391,10 +392,247 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ),
                   ),
+//////////--------------------------------------------------------------Login
+                  ///Login Mobile
+                  AnimatedPositioned(
+                    top: textFieldTopGap + 40,
+                    left: textFieldAnimateLogin,
+                    duration: _durationText + Duration(milliseconds: 50),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 50,
+                      width: Get.width,
+                      child: CustomTextField(
+                        inputFormatter: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        inputType: TextInputType.number,
+                        prefixText: '+880',
+                        controller: mobileNoLogin,
+                        node: mobileNoLoginNode,
+                        hintText: 'Enter your mobile number',
+                        prefixIcon: CupertinoIcons.phone,
+                      ),
+                    ),
+                  ),
+                  ///Login Password
+                  AnimatedPositioned(
+                    top: textFieldTopGap + 100,
+                    left: textFieldAnimateLogin,
+                    duration: _durationText + Duration(milliseconds: 100),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 50,
+                      width: Get.width,
+                      child: CustomTextField(
+                        obscure: loginPasswordObscure,
+                        controller: passwordLogin,
+                        node: passwordLoginNode,
+                        hintText: 'Enter your password',
+                        prefixIcon: CupertinoIcons.lock,
+                        suffixIcon: IconButton(
+                          icon: loginPasswordObscure
+                              ? Icon(
+                            Icons.visibility,
+                            color: AppColor.blue,
+                          )
+                              : Icon(Icons.visibility_off,
+                            color: AppColor.blue,),
+                          onPressed: () {
+                            setState(() {
+                              loginPasswordObscure = !loginPasswordObscure;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  ///Login ForgetMe
+                  AnimatedPositioned(
+                    top: textFieldTopGap + 160,
+                    left: textFieldAnimateLogin,
+                    duration: _durationText + Duration(milliseconds: 100),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 50,
+                      width: Get.width,
+                      child:  Row(
+                        children: [
+                          GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                rememberUser = !rememberUser;
+                              });
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: Theme(
+                                      data: Theme.of(context).copyWith(
+                                        unselectedWidgetColor: Colors.white,
+                                      ),
+                                      child: Checkbox(
+                                          onChanged: (value){
+                                            setState(() {
+                                              rememberUser = value!;
+                                            });
+                                          },
+                                          value: rememberUser,
+                                          activeColor:  Colors.orange
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width:  20,),
+                                  Text(
+                                    'Remember me',
+                                    style: TextStyle(fontSize:14,
+                                        color: rememberUser ?  Colors.orange : Colors.white
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Spacer(),
+                          GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                forgetMe = true;
+                                textFieldAnimateForgot = 0;
+                                textFieldAnimateLogin = -400;
+                              });
+                            },
+                            child: Text(
+                                'Forgot password?',
+                                style: TextStyle(fontSize:14,color: Colors.white)
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+//////////--------------------------------------------------------------Register
+                  //FirstName
+                  AnimatedPositioned(
+                    top: textFieldTopGap + 40,
+                    left: textFieldAnimate,
+                    duration: _durationText + Duration(milliseconds: 50),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 50,
+                      width: Get.width,
+                      child: CustomTextField(
+                        inputFormatter: [
+                          FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+                        ],
+                        controller: firstName,
+                        node: firstNameNode,
+                        hintText: 'First Name',
+                        prefixIcon: CupertinoIcons.person,
+                      ),
+                    ),
+                  ),
+                  //LastName
+                  AnimatedPositioned(
+                    top: textFieldTopGap + 100,
+                    left: textFieldAnimate,
+                    duration: _durationText + Duration(milliseconds: 100),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 50,
+                      width: Get.width,
+                      child: CustomTextField(
+                        inputFormatter: [
+                          FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
+                        ],
+                        controller: lastName,
+                        node: lastNameNode,
+                        hintText: 'Last Name',
+                        prefixIcon: CupertinoIcons.person,
+                      ),
+                    ),
+                  ),
+                  //Email
+                  AnimatedPositioned(
+                    top: textFieldTopGap + 160,
+                    left: textFieldAnimate,
+                    duration: _durationText + Duration(milliseconds: 150),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 50,
+                      width: Get.width,
+                      child: CustomTextField(
+                        controller: email,
+                        node: emailNode,
+                        hintText: 'Email',
+                        prefixIcon: CupertinoIcons.mail,
+                      ),
+                    ),
+                  ),
+                  //Mobile
+                  AnimatedPositioned(
+                    top: textFieldTopGap + 220,
+                    left: textFieldAnimate,
+                    duration: _durationText + Duration(milliseconds: 200),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 50,
+                      width: Get.width,
+                      child: CustomTextField(
+                        prefixText: prefix,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        inputType: TextInputType.number,
+                        controller: mobileNo,
+                        node: mobileNoNode,
+                        hintText: 'Mobile No.',
+                        prefixIcon: CupertinoIcons.phone,
+                      ),
+                    ),
+                  ),
+                  //Password
+                  AnimatedPositioned(
+                    top: textFieldTopGap + 280,
+                    left: textFieldAnimate,
+                    duration: _durationText + Duration(milliseconds: 250),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 50,
+                      width: Get.width,
+                      child: CustomTextField(
+                        obscure: registerPasswordObscure,
+                        controller: password,
+                        node: passwordNode,
+                        hintText: 'Password',
+                        prefixIcon: CupertinoIcons.lock,
+                        suffixIcon: IconButton(
+                          icon: registerPasswordObscure
+                              ? Icon(
+                            Icons.visibility,
+                            color: AppColor.blue,
+                          )
+                              : Icon(Icons.visibility_off,
+                            color: AppColor.blue,),
+                          onPressed: () {
+                            setState(() {
+                              registerPasswordObscure = !registerPasswordObscure;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+//////////--------------------------------------------------------------Forgot Password
                   ///ForgotPass Mobile
                   AnimatedPositioned(
                     top: textFieldTopGap + 50,
-                    right: textFieldAnimateForgot,
+                    left: textFieldAnimateForgot,
                     duration: _durationText + Duration(milliseconds: 50),
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
@@ -415,74 +653,10 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ),
                   ),
-                  ///Reset Password
-                  AnimatedPositioned(
-                    top: textFieldTopGap + 50,
-                    right: textFieldNewPassword,
-                    duration: _durationText + Duration(milliseconds: 50),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      height: 50,
-                      width: Get.width,
-                      child: CustomTextField(
-                        obscure: resetPasswordObscure,
-                        controller: newPasswordReset,
-                        node: newPasswordResetNode,
-                        hintText: 'New password',
-                        prefixIcon: CupertinoIcons.lock,
-                        suffixIcon: IconButton(
-                          icon: resetPasswordObscure
-                              ? Icon(
-                            Icons.visibility,
-                            color: AppColor.blue,
-                          )
-                              : Icon(Icons.visibility_off,
-                            color: AppColor.blue,),
-                          onPressed: () {
-                            setState(() {
-                              resetPasswordObscure = !resetPasswordObscure;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                  ///Reset Confirm Password
-                  AnimatedPositioned(
-                    top: textFieldTopGap + 110,
-                    right: textFieldNewPasswordConfirm,
-                    duration: _durationText + Duration(milliseconds: 50),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      height: 50,
-                      width: Get.width,
-                      child: CustomTextField(
-                        obscure: resetPasswordConfirmObscure,
-                        controller: newPasswordConfirmReset,
-                        node: newPasswordConfirmResetNode,
-                        hintText: 'Confirm new password',
-                        prefixIcon: CupertinoIcons.lock,
-                        suffixIcon: IconButton(
-                          icon: resetPasswordConfirmObscure
-                              ? Icon(
-                            Icons.visibility,
-                            color: AppColor.blue,
-                          )
-                              : Icon(Icons.visibility_off,
-                            color: AppColor.blue,),
-                          onPressed: () {
-                          setState(() {
-                            resetPasswordConfirmObscure = !resetPasswordConfirmObscure;
-                          });
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
                   ///ForgotPass Pin
                   AnimatedPositioned(
                     top: textFieldTopGap + 100,
-                    right: textFieldAnimatePin,
+                    left: textFieldAnimatePin,
                     duration: _durationText + Duration(milliseconds: 50),
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
@@ -607,65 +781,25 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ),
                   ),
-                  ///Login Mobile
+
+//////////--------------------------------------------------------------Reset Password
+                  ///Reset Password
                   AnimatedPositioned(
-                    top: textFieldTopGap + 40,
-                    right: textFieldAnimateLogin,
+                    top: textFieldTopGap + 50,
+                    left: textFieldNewPassword,
                     duration: _durationText + Duration(milliseconds: 50),
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       height: 50,
                       width: Get.width,
                       child: CustomTextField(
-                        inputFormatter: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        inputType: TextInputType.number,
-                        prefixText: '+880',
-                        controller: mobileNoLogin,
-                        node: mobileNoLoginNode,
-                        hintText: 'Enter your mobile number',
-                        prefixIcon: CupertinoIcons.phone,
-                      ),
-                    ),
-                  ),
-                  //FirstName
-                  AnimatedPositioned(
-                    top: textFieldTopGap + 40,
-                    left: textFieldAnimate,
-                    duration: _durationText + Duration(milliseconds: 50),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      height: 50,
-                      width: Get.width,
-                      child: CustomTextField(
-                        inputFormatter: [
-                          FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
-                        ],
-                        controller: firstName,
-                        node: firstNameNode,
-                        hintText: 'First Name',
-                        prefixIcon: CupertinoIcons.person,
-                      ),
-                    ),
-                  ),
-                  ///Login Password
-                  AnimatedPositioned(
-                    top: textFieldTopGap + 100,
-                    right: textFieldAnimateLogin,
-                    duration: _durationText + Duration(milliseconds: 100),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      height: 50,
-                      width: Get.width,
-                      child: CustomTextField(
-                        obscure: loginPasswordObscure,
-                        controller: passwordLogin,
-                        node: passwordLoginNode,
-                        hintText: 'Enter your password',
+                        obscure: resetPasswordObscure,
+                        controller: newPasswordReset,
+                        node: newPasswordResetNode,
+                        hintText: 'New password',
                         prefixIcon: CupertinoIcons.lock,
                         suffixIcon: IconButton(
-                          icon: loginPasswordObscure
+                          icon: resetPasswordObscure
                               ? Icon(
                             Icons.visibility,
                             color: AppColor.blue,
@@ -674,158 +808,30 @@ class _SplashScreenState extends State<SplashScreen>
                             color: AppColor.blue,),
                           onPressed: () {
                             setState(() {
-                              loginPasswordObscure = !loginPasswordObscure;
+                              resetPasswordObscure = !resetPasswordObscure;
                             });
                           },
                         ),
                       ),
                     ),
                   ),
-                  //LastName
+                  ///Reset Confirm Password
                   AnimatedPositioned(
-                    top: textFieldTopGap + 100,
-                    left: textFieldAnimate,
-                    duration: _durationText + Duration(milliseconds: 100),
+                    top: textFieldTopGap + 110,
+                    left: textFieldNewPasswordConfirm,
+                    duration: _durationText + Duration(milliseconds: 50),
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       height: 50,
                       width: Get.width,
                       child: CustomTextField(
-                        inputFormatter: [
-                          FilteringTextInputFormatter.allow(RegExp('[a-zA-Z]')),
-                        ],
-                        controller: lastName,
-                        node: lastNameNode,
-                        hintText: 'Last Name',
-                        prefixIcon: CupertinoIcons.person,
-                      ),
-                    ),
-                  ),
-                  //ForgetMe
-                  AnimatedPositioned(
-                    top: textFieldTopGap + 160,
-                    right: textFieldAnimateLogin,
-                    duration: _durationText + Duration(milliseconds: 100),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      height: 50,
-                      width: Get.width,
-                      child:  Row(
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                rememberUser = !rememberUser;
-                              });
-                            },
-                            child: Container(
-                              color: Colors.transparent,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: Theme(
-                                      data: Theme.of(context).copyWith(
-                                        unselectedWidgetColor: Colors.white,
-                                      ),
-                                      child: Checkbox(
-                                          onChanged: (value){
-                                            setState(() {
-                                              rememberUser = value!;
-                                            });
-                                          },
-                                          value: rememberUser,
-                                          activeColor:  Colors.orange
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(width:  20,),
-                                  Text(
-                                    'Remember me',
-                                    style: TextStyle(fontSize:14,
-                                        color: rememberUser ?  Colors.orange : Colors.white
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Spacer(),
-                          GestureDetector(
-                            onTap: (){
-                             setState(() {
-                               forgetMe = true;
-                               textFieldAnimateForgot = 0;
-                               textFieldAnimateLogin = -400;
-                             });
-                            },
-                            child: Text(
-                                'Forgot password?',
-                                style: TextStyle(fontSize:14,color: Colors.white)
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  //Email
-                  AnimatedPositioned(
-                    top: textFieldTopGap + 160,
-                    left: textFieldAnimate,
-                    duration: _durationText + Duration(milliseconds: 150),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      height: 50,
-                      width: Get.width,
-                      child: CustomTextField(
-                        controller: email,
-                        node: emailNode,
-                        hintText: 'Email',
-                        prefixIcon: CupertinoIcons.mail,
-                      ),
-                    ),
-                  ),
-                  //Mobile
-                  AnimatedPositioned(
-                    top: textFieldTopGap + 220,
-                    left: textFieldAnimate,
-                    duration: _durationText + Duration(milliseconds: 200),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      height: 50,
-                      width: Get.width,
-                      child: CustomTextField(
-                        prefixText: prefix,
-                        inputFormatter: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        inputType: TextInputType.number,
-                        controller: mobileNo,
-                        node: mobileNoNode,
-                        hintText: 'Mobile No.',
-                        prefixIcon: CupertinoIcons.phone,
-                      ),
-                    ),
-                  ),
-                  //Password
-                  AnimatedPositioned(
-                    top: textFieldTopGap + 280,
-                    left: textFieldAnimate,
-                    duration: _durationText + Duration(milliseconds: 250),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      height: 50,
-                      width: Get.width,
-                      child: CustomTextField(
-                        obscure: registerPasswordObscure,
-                        controller: password,
-                        node: passwordNode,
-                        hintText: 'Password',
+                        obscure: resetPasswordConfirmObscure,
+                        controller: newPasswordConfirmReset,
+                        node: newPasswordConfirmResetNode,
+                        hintText: 'Confirm new password',
                         prefixIcon: CupertinoIcons.lock,
                         suffixIcon: IconButton(
-                          icon: registerPasswordObscure
+                          icon: resetPasswordConfirmObscure
                               ? Icon(
                             Icons.visibility,
                             color: AppColor.blue,
@@ -833,17 +839,20 @@ class _SplashScreenState extends State<SplashScreen>
                               : Icon(Icons.visibility_off,
                             color: AppColor.blue,),
                           onPressed: () {
-                            setState(() {
-                              registerPasswordObscure = !registerPasswordObscure;
-                            });
+                          setState(() {
+                            resetPasswordConfirmObscure = !resetPasswordConfirmObscure;
+                          });
                           },
                         ),
                       ),
                     ),
                   ),
-                  //SignUp
+
+
+
+//////////--------------------------------------------------------------Submit buttons
                   Positioned(
-                    top: textFieldTopGap + 370,
+                    bottom: Get.height/15,
                     left: 0,
                     right: 0,
                     child: Column(
@@ -869,7 +878,7 @@ class _SplashScreenState extends State<SplashScreen>
                                     onPressed: () {
                                       OTPtype = 'phone' ;
                                       target = '+880 ${mobileNoForgotPass.text}';
-                                      textFieldAnimatePin = 0;
+                                      textFieldAnimatePin = Get.width/400;
                                       disableTextField = true;
                                       FocusScope.of(context).unfocus();
                                       startTimer();
@@ -889,10 +898,10 @@ class _SplashScreenState extends State<SplashScreen>
                                           forgetMe = false;
                                           reset = false;
                                           disableTextField = false;
-                                          textFieldNewPassword = -400;
-                                          textFieldNewPasswordConfirm = -400;
-                                          textFieldAnimateLogin = 0;
-
+                                          textFieldNewPassword = Get.width*2;
+                                          textFieldNewPasswordConfirm = Get.width*2;
+                                          textFieldAnimateLogin = Get.width/400;
+                                          _pinPutController.clear();
                                           newPasswordReset.clear();
                                           newPasswordConfirmReset.clear();
                                         });
@@ -915,10 +924,10 @@ class _SplashScreenState extends State<SplashScreen>
                                           setState(() {
                                             FocusScope.of(context).unfocus();
                                             reset = true;
-                                            textFieldAnimateForgot = -400;
-                                            textFieldAnimatePin = -400;
-                                            textFieldNewPassword = 0;
-                                            textFieldNewPasswordConfirm = 0;
+                                            textFieldAnimateForgot = Get.width *2;
+                                            textFieldAnimatePin = Get.width *2;
+                                            textFieldNewPassword =  Get.width/400;
+                                            textFieldNewPasswordConfirm =  Get.width/400;
                                             OTPtype = '' ;
                                             target = '';
                                             mobileNoForgotPass.clear();
@@ -1069,8 +1078,8 @@ class _SplashScreenState extends State<SplashScreen>
                                             onTap: (){
                                               setState(() {
                                                 loginPage = false;
-                                                textFieldAnimate = 0;
-                                                textFieldAnimateLogin = -400;
+                                                textFieldAnimate =  Get.width/400;
+                                                textFieldAnimateLogin = Get.width *2;
                                               });
                                             },
                                             child: RichText(
@@ -1089,8 +1098,8 @@ class _SplashScreenState extends State<SplashScreen>
                                             onTap: (){
                                               setState(() {
                                                 loginPage = true;
-                                                textFieldAnimate = -400;
-                                                textFieldAnimateLogin = 0;
+                                                textFieldAnimate = -(Get.width + 400);
+                                                textFieldAnimateLogin = Get.width/400;
                                               });
                                             },
                                             child: RichText(
@@ -1118,17 +1127,17 @@ class _SplashScreenState extends State<SplashScreen>
                     ),
                   ),
                   //BackButton
-                  forgetMe && imagePosition>0?Positioned(top:40,left:20,child: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
+                  forgetMe && imagePosition>0?Positioned(top:Get.width/12,left:Get.width/400,child: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
                     setState(() {
                       FocusScope.of(context).unfocus();
                       forgetMe = false;
                       reset = false;
                       disableTextField = false;
-                      textFieldAnimateForgot = -400;
-                      textFieldAnimatePin = -400;
-                      textFieldNewPassword = -400;
-                      textFieldNewPasswordConfirm = -400;
-                      textFieldAnimateLogin = 0;
+                      textFieldAnimateForgot = -(Get.width + 400);
+                      textFieldAnimatePin = -(Get.width + 400);
+                      textFieldNewPassword = -(Get.width + 400);
+                      textFieldNewPasswordConfirm = -(Get.width + 400);
+                      textFieldAnimateLogin = Get.width/400;
                       OTPtype = '' ;
                       target = '';
                       mobileNoForgotPass.clear();
