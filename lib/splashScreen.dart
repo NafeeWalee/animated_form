@@ -504,7 +504,7 @@ class _SplashScreenState extends State<SplashScreen>
                               setState(() {
                                 forgetMe = true;
                                 textFieldAnimateForgot = 0;
-                                textFieldAnimateLogin = -400;
+                                textFieldAnimateLogin = Get.width*2;
                               });
                             },
                             child: Text(
@@ -1133,7 +1133,7 @@ class _SplashScreenState extends State<SplashScreen>
                       forgetMe = false;
                       reset = false;
                       disableTextField = false;
-                      textFieldAnimateForgot = -(Get.width + 400);
+                      textFieldAnimateForgot = Get.width*2;
                       textFieldAnimatePin = -(Get.width + 400);
                       textFieldNewPassword = -(Get.width + 400);
                       textFieldNewPasswordConfirm = -(Get.width + 400);

@@ -20,7 +20,7 @@ Future<void> main() async {
 
   return runApp(
     DevicePreview(
-      enabled: env['serverType'] == 'google.comm' ? false : true,
+      enabled: env['serverType'] == 'google.com' ? false : true,
       builder: (context) => GetMaterialApp(
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
