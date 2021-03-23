@@ -95,7 +95,7 @@ class _SplashScreenState extends State<SplashScreen>
   double animatedHeight = Get.width/2.2;
 
 
-  double imagePosition =  Get.height/2.55 +15;
+  double imagePosition =  Get.height/2.55 +40;
   double imageWidth = 120;
   double imageHeight = 120;
 
